@@ -24,7 +24,7 @@
                         <select name="primary_contact" class="form-control" id="primary_contact">
                             <option value="" selected disabled>Select contact</option>
                             @foreach($users as $user)
-                            <option value="{{$user->id}}" @if($user->id == Auth::user()->id) selected @endif>{{$user->name}}</option>
+                                <option value="{{$user->id}}" @if($contract->primary_contact->name == $user->name) selected @endif>{{$user->name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -49,16 +49,16 @@
                         <select class="form-control" name="category" id="currency" required>
                             <option selected disabled>-- no category --</option>
                             @foreach($categories as $category)
-                                <option value="{{$category->category}}">{{$category->category}}</option>
+                                <option value="{{$category->category}}" @if ($contract->category == $category->category) selected @endif>{{$category->category}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group col-md-1.5  service-small">
                         <label for="currency">Contract value</label>
                         <select class="form-control" name="currency" id="currency" required>
-                            <option value="usd">USD&nbsp;&nbsp;</option>
-                            <option value="gbp">GBP</option>
-                            <option value="eur">EUR</option>
+                            <option value="usd"  @if ($contract->currency == 'usd') selected @endif>USD&nbsp;&nbsp;</option>
+                            <option value="gbp" @if ($contract->currency == 'gbp') selected @endif>GBP</option>
+                            <option value="eur" @if ($contract->currency == 'eur') selected @endif>EUR</option>
                         </select>
                     </div>
                     <div class="form-group col-md-2 no-label">
@@ -66,12 +66,12 @@
                     </div>
                     <div class="form-group col-md-1.5 no-label service-small">
                         <select class="form-control service-small" name="contract_period" required>
-                            <option value="yearly">per year</option>
-                            <option value="weely">per week</option>
-                            <option value="monthly">per month</option>
-                            <option value="quarterly">per quarter</option>
-                            <option value="biannually">per half year</option>
-                            <option value="biennially">per two years</option>
+                            <option value="yearly" @if ($contract->contract_period == 'yearly') selected @endif>per year</option>
+                            <option value="weekly" @if ($contract->contract_period == 'weekly') selected @endif>per week</option>
+                            <option value="monthly" @if ($contract->contract_period == 'monthly') selected @endif>per month</option>
+                            <option value="quarterly" @if ($contract->contract_period == 'quarterly') selected @endif>per quarter</option>
+                            <option value="biannually" @if ($contract->contract_period == 'biannually') selected @endif>per half year</option>
+                            <option value="biennially" @if ($contract->contract_period == 'biennially') selected @endif>per two years</option>
                         </select>
                     </div>
                     <div class="form-group col-md-2">
@@ -87,11 +87,11 @@
                     <div class="form-group col-md-3 service-small">
                         <label for="notice_period">Notice Period</label>
                         <select class="form-control service-small" name="notice_period" required>
-                            <option value="1 month">1 month</option>
-                            <option value="2 months">2 months</option>
-                            <option value="3 months">3 months</option>
-                            <option value="6 months">6 months</option>
-                            <option value="12 moths">12 months</option>
+                            <option value="1 month" @if ($contract->notice_period == '1 month') selected @endif>1 month</option>
+                            <option value="2 months" @if ($contract->notice_period == '2 months') selected @endif>2 months</option>
+                            <option value="3 months" @if ($contract->notice_period == '3 months') selected @endif>3 months</option>
+                            <option value="6 months" @if ($contract->notice_period == '6 months') selected @endif>6 months</option>
+                            <option value="12 moths" @if ($contract->notice_period == '12 months') selected @endif>12 months</option>
                         </select>
                     </div>
                     <div class="form-group col-md-3">
@@ -118,7 +118,7 @@
                             <select name="secondary_contact" class="form-control" id="secondary_contact">
                                 <option value="" selected disabled>Select contact</option>
                                 @foreach($users as $user)
-                                <option value="{{$user->id}}"> {{$user->name}}</option>
+                                <option value="{{$user->id}}" @if($contract->secondary_contact->name == $user->name) selected @endif>{{$user->name}}</option>
                                 @endforeach
                             </select>
                         </div>

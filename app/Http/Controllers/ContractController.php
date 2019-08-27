@@ -140,6 +140,8 @@ class ContractController extends Controller
     public function edit(Contract $contract)
     {
         $users = User::all();
+        $contract->primary_contact = User::find($contract->primary_contact);
+        $contract->secondary_contact = User::find($contract->secondary_contact);
         $categories = ContractCategory::all();
         return view('contracts.edit', compact('contract', 'users', 'categories'));
     }
