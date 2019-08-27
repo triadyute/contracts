@@ -1,0 +1,73 @@
+input[type=search] { 	
+    border: 1px solid #777;  /* Overridden by border: 2px inset; */
+    border-radius: 3px;
+    padding: 5px 5px;
+}
+
+.form-check-input .form-check-label{
+    margin-left: 20px;
+}
+
+.no-label{
+    margin-top: 2.3em;
+    margin-left: -1em;
+}
+
+.no-label-checkbox{
+    margin-top: 3em;
+    margin-left: -1em;
+}
+
+/*Placeholders*/
+::-webkit-input-placeholder {
+    color: #ff0000;
+    font-size: 12px;
+  }
+  ::-moz-placeholder {
+    color: #ff0000;
+    font-size: 12px;
+  }
+  :-ms-input-placeholder {
+    color: #ff0000;
+    font-size: 12px;
+  }
+  ::placeholder {
+    color: #ff0000;
+    font-size: 12px;
+  }
+
+  option{
+    font-size: 12px;
+  }
+
+  .service-small{
+      font-size: 12px;
+  }
+  .service-small select{
+       font-size: 12px;
+       padding: 2px;
+   }
+
+   label{
+       font-weight:400;
+       color:#666;
+   }
+
+   input[type=text] {
+    font-size: 12px;
+    }
+
+    .form-signin label{
+        font-size: 12px;
+        font-weight: normal;
+    }
+
+    h5, h4, h3{
+        color: #005675;
+    }
+
+    table.dataTable thead td
+table.dataTable tfoot td
+table.dataTable.no-footer{
+    border:0px;
+}
