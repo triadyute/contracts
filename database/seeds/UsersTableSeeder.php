@@ -18,15 +18,18 @@ class UsersTableSeeder extends Seeder
         $role_admin  = Role::find(3);
         $role_superuser  = Role::find(4);
 
-        $user = factory(User::class)->create(['email' => 'user@contractmanager.com']);
+        $user = factory(User::class)->create(['email' => 'user@contractmanager.com',
+        'company_id' => 1]);
         $user->roles()->attach($role_user);
         $user->save();
 
-        $editor = factory(User::class)->create(['email' => 'editor@contractmanager.com']);
+        $editor = factory(User::class)->create(['email' => 'editor@contractmanager.com',
+        'company_id' => 1]);
         $editor->roles()->attach($role_editor);
         $editor->save();
 
-        $admin = factory(User::class)->create(['email' => 'admin@contractmanager.com']);
+        $admin = factory(User::class)->create(['email' => 'admin@contractmanager.com',
+        'company_id' => 1]);
         $admin->roles()->attach($role_admin);
         $admin->save();
 

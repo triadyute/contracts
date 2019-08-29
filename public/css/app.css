@@ -81,8 +81,9 @@ h3 {
   color: #005675;
 }
 
-table.dataTable thead td table.dataTable tfoot td table.dataTable.no-footer {
-  border: 0px;
+input[type=file] {
+  cursor: pointer;
+  width: 100%;
 }
 
 /*!

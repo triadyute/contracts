@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contract;
 use App\ContractCategory;
 use App\User;
+use App\ContractUser;
 use App\ChangeLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,10 @@ class ContractController extends Controller
     public function index()
     {
         $contract_alerts = Contract::all();
+        foreach($contract_alerts as $contract_alert)
+        {
+            $contract_alert->primary_contact = User::find($contract_alert->primary_contact);
+        }
         return view('contracts.index', compact('contract_alerts'));
     }
 
@@ -155,7 +160,63 @@ class ContractController extends Controller
      */
     public function update(Request $request, Contract $contract)
     {
-        //
+        //dd(request()->all());
+        request()->validate([
+            'supplier' => 'string|max:255',
+            'alert_date' => 'date',
+            'primary_contact' => 'integer',
+            'reference' => 'string|max:255',
+            'add_to_calendar' => 'nullable|boolean',
+            'category' => 'nullable|string',
+            'currency' => 'nullable|string',
+            'contract_value' => 'nullable|string',
+            'contract_period' => 'nullable|string|max:255',
+            'start_date' => 'nullable|date',
+            'notice_period' => 'nullable|string',
+            'end_date' => 'nullable|date',
+            'no_end_date' => 'nullable|boolean',
+            //'visible_to' => 'nullable|array',
+            'secondary_contact' => 'nullable|integer',
+            'notes' => 'nullable|string',
+            'file' => 'nullable|mimes:doc,docx,pdf|max:2048',
+            ]);
+    
+            $contract->supplier = empty(request()->supplier) ? $contract->supplier : request()->supplier;
+            $contract->alert_date = empty(request()->alert_date) ? $contract->alert_date : request()->alert_date;
+            $contract->primary_contact = empty(request()->primary_contact) ? $contract->primary_contact : request()->primary_contact;
+            $contract->reference = empty(request()->reference) ? $contract->reference : request()->reference;
+            $contract->add_to_calendar = empty(request()->add_to_calendar) ? $contract->add_to_calendar : request()->add_to_calendar;
+            $contract->category = empty(request()->category) ? $contract->category : request()->category;
+            $contract->currency = empty(request()->currency) ? $contract->currency : request()->currency;
+            $contract->contract_value = empty(request()->contract_value) ? $contract->contract_value : request()->contract_value;
+            $contract->contract_period = empty(request()->contract_period) ? $contract->contract_period : request()->contract_period;
+            $contract->start_date = empty(request()->start_date) ? $contract->start_date : request()->start_date;
+            $contract->notice_period = empty(request()->notice_period) ? $contract->notice_period : request()->notice_period;
+            $contract->end_date = empty(request()->end_date) ? $contract->end_date : request()->end_date;
+            $contract->no_end_date = empty(request()->no_end_date) ? $contract->no_end_date : request()->no_end_date;
+            $contract->secondary_contact = empty(request()->secondary_contact) ? $contract->secondary_contact : request()->secondary_contact;
+            $contract->notes = empty(request()->notes) ? $contract->notes : request()->notes;
+            $contract->file = empty(request()->file) ? $contract->file : request()->file;
+            $contract->update();
+
+            $count = count($contract->getChanges());
+            $changes = array();
+
+            foreach ($contract->getChanges() as $key => $val) {
+                if (--$count <= 0) {
+                    break;
+                }
+
+                    array_push($changes,  str_replace('_',' ',  $key) . ': updated to '. $val);
+            }
+
+            $changelog = Changelog::create();
+            $changelog->contract_id = $contract->id;
+            $changelog->changes = $contract->getChanges();
+            $changelog->changes = $changes;
+            $changelog->changed_by = Auth::user()->name;
+            $changelog->save();
+            return redirect()->action('ContractController@index')->with('status', 'Alert updated');
     }
 
     /**

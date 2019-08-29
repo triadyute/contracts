@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-12 small">
+        <div class="col-md-12">
             <div class="row">
                 <div class="col-md-12">
                     <h4 style="display:inline-block" class="pull-left">Contract Details</h4>
@@ -40,7 +40,7 @@
                 </div>
             </div>
             <h4>Changelog</h4>
-            <table class="table table-striped">
+            <table class="table table-striped small">
                 <thead  class="">
                     <th>ID</th>
                     <th>Changed by</th>

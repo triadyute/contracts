@@ -4,9 +4,10 @@
     <div class="row justify-content-center">
         <div class="col-md-12 small">
             <h3>Edit contract alert</h3>
-            <form method="POST" action="/contract" enctype="multipart/form-data">
+            <form method="POST" action="{{route('contract.update', $contract)}}" enctype="multipart/form-data">
                 @include('inc.messages')
                 @csrf
+                @method('PUT')
                 <h5>Alert information</h5>
                 <hr>
                 <div class="row">

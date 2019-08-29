@@ -13,10 +13,10 @@
                 <div class="row">
                     <div class="form-group-sm col-md-3">
                         <label for="supplier">Supplier</label>
-                        <input type="text" class="form-control" name="supplier" id="supplier" placeholder="Supplier">
+                        <input type="text" class="form-control datepicker" data-date-format="mm/dd/yyyy" name="supplier" id="supplier" placeholder="Supplier">
                         <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                     </div>
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-md-2 datepiker">
                         <label for="alert_date">Alert date</label>
                         <input type="text" class="form-control" name="alert_date" id="alert_date" placeholder="Alert date">
                     </div>
@@ -77,11 +77,11 @@
                     </div>
                     <div class="form-group col-md-2">
                         <label for="start_date">Start date</label>
-                        <input type="text" class="form-control" name="start_date" id="start_date" placeholder="start_date">
+                        <input type="text" class="form-control" name="start_date" id="start_date" placeholder="Start date">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="end_date">End date</label>
-                        <input type="text" class="form-control" name="end_date" id="end_date" placeholder="Alert date">
+                        <input type="text" class="form-control" name="end_date" id="end_date" placeholder="End date">
                     </div>
                 </div>
                 <div class="row">
@@ -140,27 +140,24 @@
     </div>
 </div>
 @section('scripts')
-<script type="text/javascript">
-    Dropzone.options.dropzone =
-     {
-        maxFilesize: 12,
-        renameFile: function(file) {
-            var dt = new Date();
-            var time = dt.getTime();
-           return time+file.name;
-        },
-        acceptedFiles: ".jpeg,.jpg,.png,.gif",
-        addRemoveLinks: true,
-        timeout: 5000,
-        success: function(file, response) 
-        {
-            console.log(response);
-        },
-        error: function(file, response)
-        {
-           return false;
-        }
-};
+<script>
+    $(function () {
+        $("#indefinite").click(function () {
+            if ($(this).is(":checked")) {
+                $( "#end_date" ).prop( "disabled", true ).val('No end date');
+                console.log('checked');
+            } else {
+                $( "#end_date" ).prop( "disabled", false ).val('');
+                console.log('unchecked');
+            }
+        });
+    });
+</script>
+<script>
+$('.datepicker').datepicker({
+    format: 'mm/dd/yyyy',
+    startDate: '-3d'
+});
 </script>
 @endsection    
 @endsection

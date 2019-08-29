@@ -31,7 +31,7 @@
                                     <th scope="col">ALERT DATE</th>
                                     <th scope="col">PRIMARY CONTACT</th>
                                     <th scope="col">END DATE</th>
-                                    <th scope="col">CONTRACT VALUE</th>
+                                    <th scope="col">CONTRACT VAL.</th>
                                     <th scope="col">CATEGORY</th>
                                     <th scope="col">FILES</th>
                                     <th scope="col">ACTIONS</th>
@@ -42,10 +42,19 @@
                               <tr>
                                 <td>{{$contract_alert->supplier}}</td>
                                 <td>{{$contract_alert->reference}}</td>
-                                <td>{{$contract_alert->alert_date}}</td>
-                                <td>{{$contract_alert->primary_contact}}</td>
-                                <td>{{$contract_alert->end_date}}</td>
-                                <td>{{$contract_alert->contract_value}}</td>
+                                <td>{{\Carbon\Carbon::parse($contract_alert->alert_date)->toFormattedDateString()}}</td>
+                                <td>{{$contract_alert->primary_contact->name}}</td>
+                                <td>{{\Carbon\Carbon::parse($contract_alert->end_date)->toFormattedDateString()}}</td>
+                                <td>
+                                    @if($contract_alert->currency == "usd")
+                                    &dollar;
+                                    @elseif($contract_alert->currency == "eur")
+                                    &euro;
+                                    @elseif($contract_alert->currency == "gbp")
+                                    &pound;
+                                    @endif
+                                    {{$contract_alert->contract_value}}
+                                </td>
                                 <td>{{$contract_alert->category}}</td>
                                 <td>
                                     @if(!is_null($contract_alert->file))
@@ -55,7 +64,10 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{route('contract.show', $contract_alert)}}" title="view"><span><i class="fa fa-eye"></i></span></a>
+                                    <a href="{{route('contract.show', $contract_alert)}}"><i class="fa fa-eye" style="margin-right: .75em;"  title="view"></i></a>
+                                    <a href="{{route('contract.edit', $contract_alert)}}"><i class="fa fa-edit" style="margin-right: .75em;" title="edit"></i></a>
+                                    <a href="#"><i class="fa fa-trash" title="delete"></i></a>
+
                                 </td>
                               </tr>
                               @endforeach

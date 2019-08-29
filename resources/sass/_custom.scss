@@ -66,8 +66,8 @@ input[type=search] {
         color: #005675;
     }
 
-    table.dataTable thead td
-table.dataTable tfoot td
-table.dataTable.no-footer{
-    border:0px;
-}
+    input[type="file"] {
+        //opacity: 0;
+        cursor: pointer;
+        width: 100%;
+      }

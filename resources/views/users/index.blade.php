@@ -8,13 +8,13 @@
             <table id="myTable" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Company</th>
-                        <th class="text-center">Viewer</th>
-                        <th class="text-center">Editor</th>
-                        <th class="text-center">Admin</th>
-                        <th>Actions</th>
+                        <th>NAME</th>
+                        <th>EMAIL</th>
+                        <th>COMPANY</th>
+                        <th class="text-center">VIEWER</th>
+                        <th class="text-center">EDITOR</th>
+                        <th class="text-center">ADMIN</th>
+                        <th>ACTIONS</th>
                     </tr>
                 </thead>
                 <tbody>
