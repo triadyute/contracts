@@ -108,9 +108,9 @@
                         <div class="form-group col-md-3">
                             <label for="visible_to">This contract will only be visible to</label>
                             <select name="visible_to[]" class="form-control" id="" multiple>
-                                <option value="all_users" selected>All users</option>
+                                <option value="all_users">All users</option>
                                 @foreach($users->except(Auth::user()->id) as $user)
-                                    <option value="{{$user->id}}">{{$user->name}}</option>
+                                    <option value="{{$user->id}}" @if ($contract->users->contains($user->id)) selected @endif>{{$user->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -139,27 +139,5 @@
     </div>
 </div>
 @section('scripts')
-<script type="text/javascript">
-    Dropzone.options.dropzone =
-     {
-        maxFilesize: 12,
-        renameFile: function(file) {
-            var dt = new Date();
-            var time = dt.getTime();
-           return time+file.name;
-        },
-        acceptedFiles: ".jpeg,.jpg,.png,.gif",
-        addRemoveLinks: true,
-        timeout: 5000,
-        success: function(file, response) 
-        {
-            console.log(response);
-        },
-        error: function(file, response)
-        {
-           return false;
-        }
-};
-</script>
 @endsection    
 @endsection

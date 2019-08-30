@@ -5,7 +5,7 @@
         <div class="col-md-12 small">
             <h3>Add contract alert</h3>
             <hr>
-            <form method="POST" action="/contract" enctype="multipart/form-data">
+            <form method="POST" action="/contract" enctype="multipart/form-data" autocomplete="off">
                 @include('inc.messages')
                 @csrf
                 <h5>Alert information</h5>
@@ -13,16 +13,16 @@
                 <div class="row">
                     <div class="form-group-sm col-md-3">
                         <label for="supplier">Supplier</label>
-                        <input type="text" class="form-control datepicker" data-date-format="mm/dd/yyyy" name="supplier" id="supplier" placeholder="Supplier">
+                        <input type="text" class="form-control" data-date-format="mm/dd/yyyy" name="supplier" id="supplier" placeholder="Supplier" required>
                         <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                     </div>
                     <div class="form-group col-md-2 datepiker">
                         <label for="alert_date">Alert date</label>
-                        <input type="text" class="form-control" name="alert_date" id="alert_date" placeholder="Alert date">
+                        <input type="text" class="form-control datepicker" name="alert_date" id="datepicker" placeholder="Alert date" required>
                     </div>
                     <div class="form-group col-md-3 service-small">
                         <label for="primary_contact">Primary Contact</label>
-                        <select name="primary_contact" class="form-control" id="primary_contact">
+                        <select name="primary_contact" class="form-control" id="primary_contact" required>
                             <option value="" selected disabled>Select contact</option>
                             @foreach($users as $user)
                             <option value="{{$user->id}}" @if($user->id == Auth::user()->id) selected @endif>{{$user->name}}</option>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="form-group col-md-2">
                         <label for="">Reference #</label>
-                        <input type="text" class="form-control" name="reference" id="exampleInputPassword1" placeholder="Reference Number">
+                        <input type="text" class="form-control" name="reference" id="exampleInputPassword1" placeholder="Reference Number" required>
                     </div>
                 </div>
                 <div class="row">
@@ -77,11 +77,11 @@
                     </div>
                     <div class="form-group col-md-2">
                         <label for="start_date">Start date</label>
-                        <input type="text" class="form-control" name="start_date" id="start_date" placeholder="Start date">
+                        <input type="text" class="form-control datepicker" name="start_date" id="start_date" placeholder="Start date">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="end_date">End date</label>
-                        <input type="text" class="form-control" name="end_date" id="end_date" placeholder="End date">
+                        <input type="text" class="form-control datepicker" name="end_date" id="end_date" placeholder="End date">
                     </div>
                 </div>
                 <div class="row">
@@ -154,10 +154,9 @@
     });
 </script>
 <script>
-$('.datepicker').datepicker({
-    format: 'mm/dd/yyyy',
-    startDate: '-3d'
-});
+    $(function () {
+        $(".datepicker").datepicker();
+    });
 </script>
 @endsection    
 @endsection

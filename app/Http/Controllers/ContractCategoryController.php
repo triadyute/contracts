@@ -64,7 +64,7 @@ class ContractCategoryController extends Controller
      */
     public function edit(ContractCategory $contractCategory)
     {
-        //
+        return view('categories.edit', compact('contractCategory'));
     }
 
     /**
