@@ -21,12 +21,12 @@ class ContractController extends Controller
      */
     public function index()
     {
-        $contract_alerts = Contract::all();
-        foreach($contract_alerts as $contract_alert)
+        $contracts = Contract::all();
+        foreach($contracts as $contract_alert)
         {
             $contract_alert->primary_contact = User::find($contract_alert->primary_contact);
         }
-        return view('contracts.index', compact('contract_alerts'));
+        return view('contracts.index', compact('contracts'));
     }
 
     /**
@@ -227,6 +227,7 @@ class ContractController extends Controller
      */
     public function destroy(Contract $contract)
     {
-        //
+        $contract->delete();
+        return redirect()->action('ContractController@index')->with('status', 'Alert removed');
     }
 }

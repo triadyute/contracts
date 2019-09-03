@@ -102,7 +102,7 @@
                         </label>
                     </div>
                 </div>
-                <h5>Contract information</h5>
+                <h5>Additional information</h5>
                 <hr>
                 <div class="row">
                         <div class="form-group col-md-3">

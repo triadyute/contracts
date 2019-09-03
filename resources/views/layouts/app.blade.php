@@ -12,6 +12,9 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    
 
     <!-- Styles -->
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -29,7 +32,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark shadow-sm">
+        <nav class="navbar navbar-expand-md <!--fixed-top--> navbar-dark shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/contract') }}">
                     <img src="{{asset('images/contracts_logo2.png')}}" alt="" height="30"> 
@@ -52,9 +55,9 @@
                         <li class="nav-item dropdown">
                             <a  class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>Users</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{route('users.create')}}">New User</a>
+                                <a class="dropdown-item" href="{{route('users.create')}}"> <i class="fa fa-user-plus"></i> New User</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/users">Manage Users</a>
+                                <a class="dropdown-item" href="/users"> <i class="fa fa-users"></i> Manage Users</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -92,11 +95,11 @@
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                      <i class="fa fa-sign-out"></i> {{ __('Logout') }}
                                     </a>
                                     <div class="dropdown-divider"></div>
-                                    <a href="{{route('users.edit', Auth::user()->id)}}" class="dropdown-item">
-                                        Edit profile
+                                    <a href="{{route('users.show', Auth::user()->id)}}" class="dropdown-item">
+                                        <i class="fa fa-user"></i> My profile
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -109,7 +112,6 @@
                 </div>
             </div>
         </nav>
-
         <main class="py-4">
             @yield('content')
         </main>

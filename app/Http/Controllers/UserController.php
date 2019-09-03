@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use App\User;
 use App\Role;
 use App\Company;
+use App\Contract;
 
 class UserController extends Controller
 {
@@ -26,7 +27,8 @@ class UserController extends Controller
         {
             $users = User::where('company_id', Auth::user()->company_id)->get();
         }
-        return view('users.index', compact('users'));
+        $contract_alerts = Contract::where('created_by', Auth::user()->id);
+        return view('users.index', compact('users', 'contract_alerts'));
     }
 
     /**
@@ -110,7 +112,12 @@ class UserController extends Controller
     {
         //return $user;
         //dd(request()->all());
-        return view('users.show', compact('user'));
+        $contract_alerts = Contract::where('created_by', Auth::user()->id)->get();
+        foreach($contract_alerts as $contract_alert)
+        {
+            $contract_alert->primary_contact = User::find($contract_alert->primary_contact);
+        }
+        return view('users.show', compact('user', 'contract_alerts'));
     }
 
     /**

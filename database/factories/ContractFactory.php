@@ -11,7 +11,7 @@ $factory->define(Contract::class, function (Faker $faker) {
         'company_id' => 3,
         'supplier' => $faker->company,
         'alert_date' => $faker->date('Y-m-d'),
-        'primary_contact' => 2,
+        'primary_contact' => $faker->numberBetween($min = 2, $max = 3),
         'reference' => $faker->stateAbbr . $faker->ean8,//randomNumber($nbDigits = NULL, $strict = false),
         'add_to_calendar' => false,
         'category' => $faker->randomElement(['Client', 'Facility Services', 'Finance', 'Management', 'Legal']),

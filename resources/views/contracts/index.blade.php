@@ -38,35 +38,39 @@
                               </tr>
                             </thead>
                             <tbody>
-                                @foreach($contract_alerts as $contract_alert)
+                                @foreach($contracts as $contract)
                               <tr>
-                                <td>{{$contract_alert->supplier}}</td>
-                                <td>{{$contract_alert->reference}}</td>
-                                <td>{{\Carbon\Carbon::parse($contract_alert->alert_date)->toFormattedDateString()}}</td>
-                                <td>{{$contract_alert->primary_contact->name}}</td>
-                                <td>{{\Carbon\Carbon::parse($contract_alert->end_date)->toFormattedDateString()}}</td>
+                                <td>{{$contract->supplier}}</td>
+                                <td>{{$contract->reference}}</td>
+                                <td>{{\Carbon\Carbon::parse($contract->alert_date)->toFormattedDateString()}}</td>
+                                <td>{{$contract->primary_contact->name}}</td>
+                                <td>{{\Carbon\Carbon::parse($contract->end_date)->toFormattedDateString()}}</td>
                                 <td>
-                                    @if($contract_alert->currency == "usd")
+                                    @if($contract->currency == "usd")
                                     &dollar;
-                                    @elseif($contract_alert->currency == "eur")
+                                    @elseif($contract->currency == "eur")
                                     &euro;
-                                    @elseif($contract_alert->currency == "gbp")
+                                    @elseif($contract->currency == "gbp")
                                     &pound;
                                     @endif
-                                    {{$contract_alert->contract_value}}
+                                    {{$contract->contract_value.' '.$contract->contract_period}}
                                 </td>
-                                <td>{{$contract_alert->category}}</td>
+                                <td>{{$contract->category}}</td>
                                 <td>
-                                    @if(!is_null($contract_alert->file))
-                                    <a href="../storage/files/{{$contract_alert->file}}"><i class="fa fa-paperclip"></i> Download</a>
+                                    @if(!is_null($contract->file))
+                                    <a href="../storage/files/{{$contract->file}}"><i class="fa fa-paperclip"></i> Download</a>
                                     @else
                                     <i class="fa fa-paperclip"></i> No file
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{route('contract.show', $contract_alert)}}"><i class="fa fa-info-circle" style="margin-right: .75em;"  title="view"></i></a>
-                                    <a href="{{route('contract.edit', $contract_alert)}}"><i class="fa fa-edit" style="margin-right: .75em;" title="edit"></i></a>
-                                    <a href="#" onclick="return confirm('Are you sure?')"><i class="fa fa-trash" title="delete"></i></a>
+                                    <a href="{{route('contract.show', $contract)}}"><i class="fa fa-info-circle" style="margin-right: .75em;"  title="view"></i></a>
+                                    <a href="{{route('contract.edit', $contract)}}"><i class="fa fa-edit" style="margin-right: .75em;" title="edit"></i></a>
+                                    <form method="POST" action="{{route('contract.destroy', $contract)}}" class="user-delete" style="display:inline;">
+                                        @csrf 
+                                        @method('DELETE')
+                                        <a href="#"><button type="submit" class="text-primary" style="padding:0; background:transparent; border:0; position:relative; top: -1px;" onclick="return confirm('Are you sure?')"><i class="fa fa-user-times" style="display:inline;" title="delete"></i></button></a>
+                                    </form>
 
                                 </td>
                               </tr>
