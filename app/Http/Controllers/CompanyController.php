@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -14,7 +15,14 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
+        if(Auth::user()->hasRole('Superuser')){
+            $companies = Company::all();
+        }
+        elseif(Auth::user()->hasRole('Admin')){
+            $companies = Company::where('created_by', Auth::user()->id)->get();
+        }
+        //return $companies; 
+        return view('companies.index', compact('companies'));
     }
 
     /**
@@ -24,7 +32,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        //
+        return view('companies.create');
     }
 
     /**

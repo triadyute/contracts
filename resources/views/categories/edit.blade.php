@@ -6,14 +6,14 @@
             <h4>Edit category</h4>
             <hr>
             @include('inc.messages')
-            <form method="POST" action="{{route('categories.update', $contractCategory)}}">
+            <form method="POST" action="{{route('categories.update', $category)}}">
                 @csrf
                 @method('PUT')
                <div class="form-group">
                 <div class="row" style="margin-bottom:1em;">
                     <div class="col-md-4">
                         <label for="category">Category name</label>
-                        <input type="text" class="form-control" name="category" value="{{$contractCategory}}">
+                        <input type="text" class="form-control" name="category" value="{{$category->category}}">
                     </div>
                 </div>
                 <div class="row">

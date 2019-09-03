@@ -21,6 +21,10 @@ input[type=search] {
   margin-left: -1em;
 }
 
+.dates {
+  margin-left: -1em;
+}
+
 /*Placeholders*/
 
 ::-webkit-input-placeholder {
@@ -78,12 +82,44 @@ input[type=text] {
 h5,
 h4,
 h3 {
-  color: #005675;
+  color: #1C3E5C;
 }
 
 input[type=file] {
   cursor: pointer;
   width: 100%;
+}
+
+.navbar,
+.navbar-dark {
+  background-color: #1C3E5C;
+}
+
+/* unvisited link */
+
+a:link {
+  color: #1C3E5C;
+}
+
+/* visited link */
+
+a:visited {
+  color: #1C3E5C;
+}
+
+/* selected link */
+
+a:active {
+  color: blue;
+}
+
+.add-btn {
+  background-color: #1C3E5C !important;
+  border: none !important;
+}
+
+th {
+  color: #1C3E5C;
 }
 
 /*!

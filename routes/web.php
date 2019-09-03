@@ -23,8 +23,10 @@ Route::resource('company', 'CompanyController')->middleware('auth');
 Route::resource('categories', 'ContractCategoryController')->middleware('auth');
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/users', 'UserController@index')->name('users')->middleware('auth');
+Route::get('/users', 'UserController@index')->name('users.index')->middleware('auth');
 Route::get('/users/create', 'UserController@create')->name('users.create');
+Route::post('/users', 'UserController@store')->name('users.store');
 Route::get('/users/edit/{user}', 'UserController@edit')->name('users.edit')->middleware('auth');
 Route::get('/users/{user}', 'UserController@show')->name('users.show')->middleware('auth');
-Route::post('/users', 'UserController@store')->name('users.store');
+Route::put('/users/update/{user}', 'UserController@update')->name('users.update')->middleware('auth');
+Route::delete('/users/delete/{user}', 'UserController@destroy')->name('users.delete')->middleware('auth');

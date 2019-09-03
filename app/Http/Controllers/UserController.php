@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\User;
 use App\Role;
+use App\Company;
 
 class UserController extends Controller
 {
@@ -18,14 +19,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        /**if(Auth::user()->hasRole('SuperUser')){
+        if(Auth::user()->hasRole('SuperUser')){
             $users = User::all();
         }
         elseif(Auth::user()->hasRole('Admin'))
         {
             $users = User::where('company_id', Auth::user()->company_id)->get();
-        }**/
-        $users = User::all();
+        }
         return view('users.index', compact('users'));
     }
 
@@ -58,7 +58,7 @@ class UserController extends Controller
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => $data['password'],
+            'password' => Hash::make($data['password']),
         ]);
 
         if(request()->guest_role_select == 'role_admin'){
@@ -131,9 +131,30 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(User $user)
     {
-        //
+        //dd(request()->all());
+        request()->validate([
+        'name' => 'string|max:255',
+        'email' => 'string|email|max:255|unique:users,email,'.$user->id,
+        ]);
+
+        $user->name = empty(request()->name) ? $user->name : request()->name;
+        $user->email = empty(request()->email) ? $user->email : request()->email;
+        //$user->save();
+
+        //assignment of roles
+        $roles = array();
+        request()->role_select == 'role_user' ? array_push($roles, 1) : '';
+        request()->role_select == 'role_editor' ? array_push($roles, 2) : '';
+        request()->role_select == 'role_admin' ? array_push($roles, 3) : '';
+        
+        //return $roles;
+
+        $user->roles()->detach();
+        $user->roles()->attach($roles);
+        $user->update();
+        return redirect()->route('users.index')->with('status', 'User udpated'); 
     }
 
     /**
@@ -142,8 +163,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return redirect()->action('UserController@index')->with('status', $user->name .' removed');
     }
 }

@@ -62,9 +62,9 @@ class ContractCategoryController extends Controller
      * @param  \App\ContractCategory  $contractCategory
      * @return \Illuminate\Http\Response
      */
-    public function edit(ContractCategory $contractCategory)
+    public function edit(ContractCategory $category)
     {
-        return view('categories.edit', compact('contractCategory'));
+        return view('categories.edit', compact('category'));
     }
 
     /**
@@ -74,9 +74,14 @@ class ContractCategoryController extends Controller
      * @param  \App\ContractCategory  $contractCategory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ContractCategory $contractCategory)
+    public function update(Request $request, ContractCategory $category)
     {
-        //
+        request()->validate([
+            'category' => 'string|max:255',
+            ]);
+            $category->category = empty(request()->category) ? $category->category : request()->category;
+            $category->save();
+            return redirect()->action('ContractCategoryController@index')->with('status', 'Category updated');
     }
 
     /**

@@ -12,7 +12,7 @@
                 </div>
             </div>
             <hr>
-            
+            @include('inc.messages')
         @foreach ($categories as $category)
         <p style="display: inline;">{{$category->category}}</p>
             <a href="{{route('categories.edit', $category)}}"><button class="btn btn-primary btn-sm pull-right" style="display: inline;">Edit</button></a>

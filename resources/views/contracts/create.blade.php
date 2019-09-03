@@ -47,7 +47,7 @@
                 <div class="row">
                     <div class="form-group col-md-3 service-small">
                         <label for="category">Category</label>
-                        <select class="form-control" name="category" id="currency" required>
+                        <select class="form-control" name="category" id="currency">
                             <option selected disabled>-- no category --</option>
                             @foreach($categories as $category)
                                 <option value="{{$category->category}}">{{$category->category}}</option>
@@ -56,17 +56,17 @@
                     </div>
                     <div class="form-group col-md-1.5  service-small">
                         <label for="currency">Contract value</label>
-                        <select class="form-control" name="currency" id="currency" required>
+                        <select class="form-control" name="currency" id="currency">
                             <option value="usd">USD&nbsp;&nbsp;</option>
                             <option value="gbp">GBP</option>
                             <option value="eur">EUR</option>
                         </select>
                     </div>
                     <div class="form-group col-md-2 no-label">
-                        <input type="text" class="form-control" name="contract_value" placeholder=".00" required />
+                        <input type="text" class="form-control" name="contract_value" placeholder=".00" />
                     </div>
                     <div class="form-group col-md-1.5 no-label service-small">
-                        <select class="form-control service-small" name="contract_period" required>
+                        <select class="form-control service-small" name="contract_period">
                             <option value="yearly">per year</option>
                             <option value="weekly">per week</option>
                             <option value="monthly">per month</option>
@@ -76,18 +76,18 @@
                         </select>
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="start_date">Start date</label>
-                        <input type="text" class="form-control datepicker" name="start_date" id="start_date" placeholder="Start date">
+                        <label for="startDate">Start Date</label>
+                        <input id="startDate" name="startDate" type="text" class="form-control" />
                     </div>
-                    <div class="form-group col-md-2">
-                        <label for="end_date">End date</label>
-                        <input type="text" class="form-control datepicker" name="end_date" id="end_date" placeholder="End date">
+                    <div class="form-group col-md-2 date">
+                        <label for="endDate">End Date</label>
+                        <input id="endDate" name="endDate" type="text" class="form-control" />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-3 service-small">
+                    <div class="form-group col-md-2 service-small">
                         <label for="notice_period">Notice Period</label>
-                        <select class="form-control service-small" name="notice_period" required>
+                        <select class="form-control service-small" name="notice_period">
                             <option value="1 month">1 month</option>
                             <option value="2 months">2 months</option>
                             <option value="3 months">3 months</option>
@@ -114,7 +114,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group col-md-3 service-small">
+                        <div class="form-group col-md-2 service-small">
                             <label for="secondary_contact">Secondary contact</label>
                             <select name="secondary_contact" class="form-control" id="secondary_contact">
                                 <option value="" selected disabled>Select contact</option>
@@ -144,19 +144,120 @@
     $(function () {
         $("#indefinite").click(function () {
             if ($(this).is(":checked")) {
-                $( "#end_date" ).prop( "disabled", true ).val('No end date');
+                $( "#endDate" ).prop( "disabled", true ).val('No end date');
                 console.log('checked');
             } else {
-                $( "#end_date" ).prop( "disabled", false ).val('');
+                $( "#endDate" ).prop( "disabled", false ).val('');
                 console.log('unchecked');
             }
         });
     });
 </script>
 <script>
-    $(function () {
-        $(".datepicker").datepicker();
+        $(function () {
+            $(".datepicker").datepicker({ 
+        format: "yyyy-mm-dd", 
+        });
     });
+</script>
+<script>
+    var bindDateRangeValidation = function (f, s, e) {
+    if(!(f instanceof jQuery)){
+			console.log("Not passing a jQuery object");
+    }
+  
+    var jqForm = f,
+        startDateId = s,
+        endDateId = e;
+  
+    var checkDateRange = function (startDate, endDate) {
+        var isValid = (startDate != "" && endDate != "") ? startDate <= endDate : true;
+        return isValid;
+    }
+
+    var bindValidator = function () {
+        var bstpValidate = jqForm.data('bootstrapValidator');
+        var validateFields = {
+            startDate: {
+                validators: {
+                    notEmpty: { message: 'This field is required.' },
+                    callback: {
+                        message: 'Start Date must less than or equal to End Date.',
+                        callback: function (startDate, validator, $field) {
+                            return checkDateRange(startDate, $('#' + endDateId).val())
+                        }
+                    }
+                }
+            },
+            endDate: {
+                validators: {
+                    notEmpty: { message: 'This field is required.' },
+                    callback: {
+                        message: 'End Date must greater than or equal to Start Date.',
+                        callback: function (endDate, validator, $field) {
+                            return checkDateRange($('#' + startDateId).val(), endDate);
+                        }
+                    }
+                }
+            },
+          	customize: {
+                validators: {
+                    customize: { message: 'customize.' }
+                }
+            }
+        }
+        if (!bstpValidate) {
+            jqForm.bootstrapValidator({
+                excluded: [':disabled'], 
+            })
+        }
+      
+        jqForm.bootstrapValidator('addField', startDateId, validateFields.startDate);
+        jqForm.bootstrapValidator('addField', endDateId, validateFields.endDate);
+      
+    };
+
+    var hookValidatorEvt = function () {
+        var dateBlur = function (e, bundleDateId, action) {
+            jqForm.bootstrapValidator('revalidateField', e.target.id);
+        }
+
+        $('#' + startDateId).on("dp.change dp.update blur", function (e) {
+            $('#' + endDateId).data("DateTimePicker").setMinDate(e.date);
+            dateBlur(e, endDateId);
+        });
+
+        $('#' + endDateId).on("dp.change dp.update blur", function (e) {
+            $('#' + startDateId).data("DateTimePicker").setMaxDate(e.date);
+            dateBlur(e, startDateId);
+        });
+    }
+
+    bindValidator();
+    hookValidatorEvt();
+};
+
+
+$(function () {
+    var sd = new Date(), ed = new Date();
+  
+    $('#startDate').datetimepicker({ 
+      pickTime: false, 
+      format: "YYYY-MM-DD", 
+      defaultDate: sd, 
+      maxDate: ed 
+    });
+  
+    $('#endDate').datetimepicker({ 
+      pickTime: false, 
+      format: "YYYY-MM-DD", 
+      defaultDate: ed, 
+      minDate: sd 
+    });
+
+    //passing 1.jquery form object, 2.start date dom Id, 3.end date dom Id
+    bindDateRangeValidation($("#form"), 'startDate', 'endDate');
+});
 </script>
 @endsection    
 @endsection

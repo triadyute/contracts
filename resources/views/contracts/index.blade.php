@@ -9,7 +9,7 @@
                     <h4>Contract alerts</h4>
                 </div>
                 <div class="col-md-6">
-                    <a href="{{route('contract.create')}}"><button class="dt-button float-right"><span><i class="fa fa-plus"></i></span></button></a>
+                    <a href="{{route('contract.create')}}"><span class="float-right"><button class="btn btn-primary btn-sm add-btn"><i class="fa fa-plus"></i> New contract alert</button></span></a>
                 </div>
             </div>
             <hr>
@@ -64,9 +64,9 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{route('contract.show', $contract_alert)}}"><i class="fa fa-eye" style="margin-right: .75em;"  title="view"></i></a>
+                                    <a href="{{route('contract.show', $contract_alert)}}"><i class="fa fa-info-circle" style="margin-right: .75em;"  title="view"></i></a>
                                     <a href="{{route('contract.edit', $contract_alert)}}"><i class="fa fa-edit" style="margin-right: .75em;" title="edit"></i></a>
-                                    <a href="#"><i class="fa fa-trash" title="delete"></i></a>
+                                    <a href="#" onclick="return confirm('Are you sure?')"><i class="fa fa-trash" title="delete"></i></a>
 
                                 </td>
                               </tr>
